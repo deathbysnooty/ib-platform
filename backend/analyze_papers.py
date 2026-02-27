@@ -1,5 +1,5 @@
 """
-One-time deep analysis script for Math AA and Math AI question papers.
+Deep analysis script for IB question papers.
 
 Run from backend/ directory:
     python3 analyze_papers.py
@@ -7,6 +7,7 @@ Run from backend/ directory:
 Analyses question papers (NOT markschemes) for:
   - Math AA HL + SL
   - Math AI HL + SL
+  - Physics HL + SL
   - Session = Specimen OR year >= 2021
 
 Skips papers already in the DB. Safe to re-run after adding new papers.
@@ -27,7 +28,7 @@ from paper_analysis import ANALYSIS_PROMPT, paper_analysis_db
 logging.basicConfig(level=logging.INFO, format="%(levelname)s  %(message)s")
 logger = logging.getLogger(__name__)
 
-MATH_SUBJECTS = {"math aa", "math ai"}
+ANALYSED_SUBJECTS = {"math aa", "math ai", "physics"}
 
 
 def main():
@@ -41,11 +42,11 @@ def main():
     candidates = [
         p for p in drive_index.papers
         if p.type == "question"
-        and (p.subject or "").lower() in MATH_SUBJECTS
+        and (p.subject or "").lower() in ANALYSED_SUBJECTS
         and (p.session == "Specimen" or (p.year is not None and p.year >= 2021))
     ]
 
-    logger.info(f"Found {len(candidates)} papers to analyse (Math AA + AI, 2021+/Specimen, question only).")
+    logger.info(f"Found {len(candidates)} papers to analyse (Math AA + AI + Physics, 2021+/Specimen, question only).")
 
     skipped = done = failed = 0
 
