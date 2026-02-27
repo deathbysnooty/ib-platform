@@ -22,7 +22,7 @@ export default function ChatPage({ user, onLogout }: Props) {
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       role: "assistant",
-      content: `Hi ${user.name.split(" ")[0]}! Ask me for any IB past paper.\n\nTry something like:\n• "Math AA HL May 2024 Paper 2"\n• "Physics HL November 2023"\n• "Chemistry SL 2022"\n• "Math AA HL papers with Section B on complex numbers"\n• "Which Math AI SL papers have vectors?"\n\nYou can also ask for **grade boundaries** (e.g. "Math AA HL May 2023 grade boundaries") or **data booklets**.\n\nIf you don't specify a timezone, I'll return all available ones.`,
+      content: `Hi ${user.name.split(" ")[0]}! Welcome to **Photon IB Papers**.\n\nHere's what I can do:\n\n📄 **Past papers & markschemes** — ask for any subject, level, year and session\n🤖 **AI paper analysis** — click "AI Summary" on any paper for a full topic & difficulty breakdown\n🔍 **Topic search** — find papers by concept, e.g. *"Math AA HL papers with complex numbers"*\n📊 **Grade boundaries** — e.g. *"Math AA HL May 2023 grade boundaries"*\n📐 **Formula & data booklets** — e.g. *"Physics HL data booklet"*\n\nWhat would you like?`,
     },
   ]);
   const [input, setInput] = useState("");
