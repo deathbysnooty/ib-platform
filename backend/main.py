@@ -170,9 +170,12 @@ async def chat(request: ChatRequest, user: User = Depends(get_current_user)):
     if parsed.resource_type == "data_booklet":
         files = drive_index.search(
             subject=parsed.subject,
-            level=parsed.level,
+            level=None,  # data booklets are shared across HL/SL
             resource_type="data_booklet",
         )
+        # Fall back to all data booklets if subject match returns nothing
+        if not files:
+            files = drive_index.search(resource_type="data_booklet")
         message = chat_handler.build_resource_response(parsed, files)
         return ChatResponse(message=message, resource_files=files)
 
