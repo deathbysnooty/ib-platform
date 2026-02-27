@@ -1,0 +1,29 @@
+# Environment files — NEVER commit these (contain API keys & secrets)
+.env
+.env.local
+.env.production
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+*.egg-info/
+
+# SQLite — user login data (PII), don't commit
+backend/logins.db
+
+# Node
+node_modules/
+frontend/dist/
+frontend/.env
+frontend/.env.local
+frontend/.env.production
+
+# macOS
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
