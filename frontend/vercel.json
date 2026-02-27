@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://ib-platform.onrender.com/api/:path*"
+    }
+  ]
+}

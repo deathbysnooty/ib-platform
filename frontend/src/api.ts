@@ -1,4 +1,6 @@
-const BASE = import.meta.env.VITE_API_URL || "http://localhost:8000";
+// In production, VITE_API_URL is empty so calls go to the same origin
+// (Vercel proxies /api/* → Render). In dev, points to localhost:8000.
+const BASE = import.meta.env.VITE_API_URL ?? "http://localhost:8000";
 
 async function request<T>(path: string, options?: RequestInit): Promise<T> {
   const res = await fetch(`${BASE}${path}`, {
