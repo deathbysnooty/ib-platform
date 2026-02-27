@@ -9,7 +9,7 @@ class PaperFile(BaseModel):
     level: Optional[str] = None
     year: Optional[int] = None
     session: Optional[str] = None
-    paper: Optional[int] = None
+    paper: Optional[str] = None   # e.g. "1", "2", "1A", "1B"
     timezone: Optional[str] = None
     type: Literal["question", "markscheme", "data_booklet"] = "question"
     folder_path: str = ""
@@ -26,7 +26,7 @@ class PaperGroup(BaseModel):
     level: Optional[str] = None
     year: Optional[int] = None
     session: Optional[str] = None
-    paper: Optional[int] = None
+    paper: Optional[str] = None   # e.g. "1", "2", "1A", "1B"
     timezone: str
     question_paper: Optional[PaperFile] = None
     markscheme: Optional[PaperFile] = None
@@ -38,7 +38,7 @@ class ParsedQuery(BaseModel):
     level: Optional[str] = None
     year: Optional[int] = None
     session: Optional[str] = None
-    paper: Optional[int] = None
+    paper: Optional[str] = None   # e.g. "1", "2", "1A", "1B"
     timezone: Optional[str] = None
     resource_type: Optional[str] = None  # "data_booklet" | "grade_boundary" | "topic_search" | None
     score: Optional[int] = None           # raw mark for grade boundary lookup

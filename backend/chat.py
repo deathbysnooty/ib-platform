@@ -32,7 +32,7 @@ Return ONLY a JSON object with these fields (use null when not mentioned):
   "level": "HL" | "SL" | null,
   "year": integer | null,
   "session": "May" | "November" | "Specimen" | null,
-  "paper": 1 | 2 | 3 | null,
+  "paper": "1" | "2" | "3" | "1A" | "1B" | null,
   "timezone": "TZ1" | "TZ2" | "TZ3" | null,
   "resource_type": "data_booklet" | "grade_boundary" | "topic_search" | null,
   "score": integer | null,
@@ -46,6 +46,7 @@ Rules:
 - If student says "Maths" treat as Math AA unless they say AI/Applications
 - Before 2021 there was no Math AI — the old "Math SL" and "Math HL" curricula align with Math AA. So if the student says "Math HL" or "Math SL" without mentioning AA/AI, treat as "Math AA".
 - Math AI only exists from 2021 onwards. If a student asks for Math AI before 2021, still return subject="Math AI" (no results will be found and that's correct).
+- For Science subjects (Physics, Chemistry, Biology), Paper 1 is split into Paper 1A (MCQ) and Paper 1B (data analysis). If the student says "Paper 1A" set paper="1A", "Paper 1B" set paper="1B", plain "Paper 1" set paper="1".
 - "Specimen" papers are official IB sample papers released when a new syllabus launched. If the student asks for "specimen paper", set session="Specimen".
 - If the student asks for "data booklet", "formula booklet", "formula sheet", or "formula book", set resource_type="data_booklet" (and subject/level if mentioned).
 - If the student asks about "grade boundaries", "grade boundary", "what grade is X marks", "what do I need for a 7", "pass mark", set resource_type="grade_boundary". Also extract score if they say things like "I got 65 marks" or "what grade is 72/100".
@@ -113,7 +114,7 @@ class ChatHandler:
         session = groups[0].session or ""
         year = str(groups[0].year) if groups[0].year else ""
         papers = sorted({g.paper for g in groups if g.paper})
-        paper_str = f" Paper {', '.join(map(str, papers))}" if papers else ""
+        paper_str = f" Paper {', '.join(papers)}" if papers else ""
 
         return (
             f"Here are the **{subject} {level} {session} {year}{paper_str}** papers "

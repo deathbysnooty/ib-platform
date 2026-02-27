@@ -161,10 +161,12 @@ def parse_filename(name: str) -> dict:
     else:
         meta["type"] = "question"
 
-    # Paper number
-    paper_m = re.search(r"paper[_\s]?(\d)", stem)
+    # Paper number — supports plain (1,2,3) and lettered (1A, 1B)
+    paper_m = re.search(r"paper[_\s]?(\d)([ab])?", stem, re.IGNORECASE)
     if paper_m:
-        meta["paper"] = int(paper_m.group(1))
+        num = paper_m.group(1)
+        letter = paper_m.group(2).upper() if paper_m.group(2) else ""
+        meta["paper"] = f"{num}{letter}"
 
     # Timezone
     tz_m = re.search(r"(tz[123])", stem, re.IGNORECASE)
@@ -317,7 +319,7 @@ class DriveIndex:
         if session:
             results = [f for f in results if f.session and f.session.lower() == session.lower()]
         if paper:
-            results = [f for f in results if f.paper == paper]
+            results = [f for f in results if f.paper and f.paper.upper() == str(paper).upper()]
         if timezone:
             results = [f for f in results if f.timezone and f.timezone.upper() == timezone.upper()]
         return results
@@ -348,7 +350,7 @@ class DriveIndex:
             else:
                 groups[key].question_paper = f
 
-        return sorted(groups.values(), key=lambda g: (g.paper or 0, g.timezone))
+        return sorted(groups.values(), key=lambda g: (g.paper or "", g.timezone))
 
     # ------------------------------------------------------------------
     def get_paper_by_id(self, file_id: str) -> Optional["PaperFile"]:
