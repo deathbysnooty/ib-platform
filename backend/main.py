@@ -111,12 +111,13 @@ async def google_auth(body: dict, response: Response, request: Request):
         picture=user_info.get("picture"),
     )
     session_token = create_session_token(user)
+    is_production = os.environ.get("ENV") == "production"
     response.set_cookie(
         "session",
         session_token,
         httponly=True,
-        samesite="lax",
-        secure=(os.environ.get("ENV") == "production"),
+        samesite="none" if is_production else "lax",
+        secure=is_production,
         max_age=30 * 24 * 60 * 60,
     )
 
